@@ -11,10 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('districs', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->bigInteger('stars')->default(0);
+            $table->bigInteger('reputation')->default(0);
+            $table->bigInteger('war_points')->default(0);
+            $table->longText('avatar');
+            $table->string('phone', 15);
+            $table->bigInteger('bit_token')->default(0);
+            $table->enum('status', ['active', 'inactive', 'banned'])->default('active');
+            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->enum('premium', ['free', 'premium'])->default('free');
+            $table->foreignId('distric_id')->constrained('districs');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
